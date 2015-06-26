@@ -34,6 +34,7 @@
     NSString *_city;
     NSString *_phoneNumber;
     NSString *_name;
+    NSString *_aPerson;
 }
 
 - (void) setCity:(NSString *) city {

@@ -13,23 +13,45 @@
 - (NSString *)encode:(NSString *)string offset:(int)offset;
 - (NSString *)decode:(NSString *)string offset:(int)offset;
 
+// Write a method called codeBreaker, which accepts two cipher strings as paramaters and returns a boolean value
+- (BOOL) codeBreaker:(NSString *)cipherString1 with:(NSString * )cipherString2;
+
 @end
 
 
 @implementation CaesarCipher
 
+- (BOOL) codeBreaker:(NSString *)cipherString1 with:(NSString * )cipherString2 {
+    // which tells us whether they are actually the same input message encoded using two different offsets
+    
+    // decode cipherstring2 using offsets from 0 to cipherstring1.length
+    
+    
+    for (int i = 0; i < cipherString1.length; i++) {
+        NSString *decoded = [self decode:cipherString2 offset:i];
+        
+        if ([decoded isEqualToString:cipherString1]) {
+            return YES;
+            
+        }
+        
+    }
+    return NO;
+}
+
+
 - (NSString *)encode:(NSString *)string offset:(int)offset {
     if (offset > 25) {
         NSAssert(offset < 26, @"offset is out of range. 1 - 25");
     }
-    NSString *str = [string lowercaseString];
+    NSString *str = [string lowercaseString]; //method invocation
     unsigned long count = [string length];
     unichar result[count];
     unichar buffer[count];
     [str getCharacters:buffer range:NSMakeRange(0, count)];
     
     char allchars[] = "abcdefghijklmnopqrstuvwxyz";
-
+    
     for (int i = 0; i < count; i++) {
         if (buffer[i] == ' ' || ispunct(buffer[i])) {
             result[i] = buffer[i];
@@ -39,10 +61,10 @@
         char *e = strchr(allchars, buffer[i]);
         int idx= (int)(e - allchars);
         int new_idx = (idx + offset) % strlen(allchars);
-
+        
         result[i] = allchars[new_idx];
     }
-
+    
     return [NSString stringWithCharacters:result length:count];
 }
 
@@ -50,11 +72,16 @@
     return [self encode:string offset: (26 - offset)];
 }
 
+
 @end
 
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
+        // come up with 2 strings and 2 offsets, run codebreaker on both
+        
+        NSString *(stringCipher1);
+        NSString *(stringCipher2);
     }
 }
