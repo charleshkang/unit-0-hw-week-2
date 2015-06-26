@@ -14,35 +14,15 @@
 - (NSString *)decode:(NSString *)string offset:(int)offset;
 
 // Write a method called codeBreaker, which accepts two cipher strings as paramaters and returns a boolean value
-- (BOOL) codeBreaker:(NSString *)cipherString1 with:(NSString * )cipherString2;
+- (BOOL) isEqual:(NSString *)first other:(NSString * )second;
 
 @end
 
-
 @implementation CaesarCipher
-
-- (BOOL) codeBreaker:(NSString *)cipherString1 with:(NSString * )cipherString2 {
-    // which tells us whether they are actually the same input message encoded using two different offsets
-    
-    // decode cipherstring2 using offsets from 0 to cipherstring1.length
-    
-    
-    for (int i = 0; i < cipherString1.length; i++) {
-        NSString *decoded = [self decode:cipherString2 offset:i];
-        
-        if ([decoded isEqualToString:cipherString1]) {
-            return YES;
-            
-        }
-        
-    }
-    return NO;
-}
-
 
 - (NSString *)encode:(NSString *)string offset:(int)offset {
     if (offset > 25) {
-        NSAssert(offset < 26, @"offset is out of range. 1 - 25");
+        
     }
     NSString *str = [string lowercaseString]; //method invocation
     unsigned long count = [string length];
@@ -72,6 +52,28 @@
     return [self encode:string offset: (26 - offset)];
 }
 
+//comparison method
+- (BOOL) isEqual:(NSString *)first other:(NSString * )second {
+    if ([first length] != [second length]) {
+        return NO;
+    }
+    
+    // which tells us whether they are actually the same input message encoded using two different offsets
+    
+    // decode cipherstring2 using offsets from 0 to cipherstring1.length
+    
+    
+    for (int i = 0; i < first.length; i++) {
+        NSString *decoded = [self decode:second offset:i];
+        
+        if ([decoded isEqualToString:first]) {
+            return YES;
+            
+        }
+        
+    }
+    return NO;
+}
 
 @end
 
@@ -79,9 +81,23 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
-        // come up with 2 strings and 2 offsets, run codebreaker on both
         
-        NSString *(stringCipher1);
-        NSString *(stringCipher2);
+        CaesarCipher *str = [[CaesarCipher alloc] init];
+        // come up with 2 strings and 2 offsets, run codebreaker on both
+        NSString *example = @"my name is charles";
+        NSString *cipher = [str encode:example offset:2];
+        NSString *reverse = [str decode: cipher offset:2];
+        
+        NSLog(@"%@", example);
+        NSLog(@"%@", cipher);
+        NSLog(@"%@", reverse);
+        
+        if ([str isEqual: cipher other:[str encode:@"my name is charles" offset:2]]) {
+            NSLog(@"Yes");
+        }
+        else {
+            NSLog(@"No");
+        }
     }
 }
+

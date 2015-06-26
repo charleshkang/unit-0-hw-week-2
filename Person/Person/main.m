@@ -25,6 +25,8 @@
 - (BOOL) checkSameCity:(Person *) aPerson;
 - (Person *) hasChild;
 
+- (void) claimChild : (NSString *) child;
+
 
 
 
@@ -35,7 +37,10 @@
     NSString *_phoneNumber;
     NSString *_name;
     NSString *_aPerson;
+    Person *_child;
+    NSMutableArray *_children;
 }
+
 
 - (void) setCity:(NSString *) city {
     _city = city;
@@ -81,7 +86,10 @@
     } else {
         return NO;
     }
-    
+}
+
+- (void) claimChild : (NSString *) child {
+    _child = child;
 }
 
 @end
@@ -127,6 +135,7 @@ int main(int argc, const char * argv[]) {
         NSLog(@"%@", [carl name]);
         
         Person *mikesBaby = [mike hasChild];
+        [mike claimChild: mikesBaby];
         NSLog(@"%@", [mikesBaby city]);
         [mike changePersonsName: mikesBaby toName : @"ABC"];
         
