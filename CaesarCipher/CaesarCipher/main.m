@@ -68,9 +68,7 @@
         
         if ([decoded isEqualToString:first]) {
             return YES;
-            
         }
-        
     }
     return NO;
 }
@@ -84,15 +82,16 @@ int main(int argc, const char * argv[]) {
         
         CaesarCipher *str = [[CaesarCipher alloc] init];
         // come up with 2 strings and 2 offsets, run codebreaker on both
-        NSString *example = @"my name is charles";
-        NSString *cipher = [str encode:example offset:2];
-        NSString *reverse = [str decode: cipher offset:2];
+        NSString *example = @"the dog runs over the hill and goes back home";
+        NSString *cipher = [str encode:example offset:10];
+        NSString *reverse = [str decode:cipher offset:10
+                             ];
         
         NSLog(@"%@", example);
         NSLog(@"%@", cipher);
         NSLog(@"%@", reverse);
         
-        if ([str isEqual: cipher other:[str encode:@"my name is charles" offset:2]]) {
+        if ([str isEqual: cipher other:[str encode:@"the dof runs over the hill and goes back home" offset:5]]) {
             NSLog(@"Yes");
         }
         else {
